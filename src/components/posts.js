@@ -8,6 +8,8 @@ class Posts extends React.Component {
         if (this.props.posts.length === 0) {
             this.props.dispatch(startGetPosts())
         }
+
+         
     }
     
     render(){

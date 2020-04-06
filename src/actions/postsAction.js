@@ -10,6 +10,7 @@ export const startGetPosts = () => {
         .then((response) =>{
             const posts = response.data
             dispatch(setPosts(posts))
+           
         })
         .catch((err)=>{
             console.log(err)
