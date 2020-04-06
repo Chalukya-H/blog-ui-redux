@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+button {
+  border-radius: 80px;
+  width:120px;
+  height: 30px;
+}
+
+Link {
+  font-size: large;
+  color: burlywood;
+}
