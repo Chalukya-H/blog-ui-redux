@@ -1,11 +1,11 @@
 import React from 'react';
 import {BrowserRouter,Link,Route} from 'react-router-dom'
 import './App.css';
-import Home from './home'
-import Users from './users'
-import UserShow from './userShow'
-import Posts from './posts'
-import PostShow from './postShow'
+import Home from './components/home'
+import Users from './components/users'
+import UserShow from './components/userShow'
+import Posts from './components/posts'
+import PostShow from './components/postShow'
 
 function App() {
   return (
