@@ -1,15 +1,14 @@
-const postsInitialState = []
+const postInitialState = []
 
-const postsReducer = (state = postsInitialState, action) => {
+const postReducer = (state = postInitialState, action) => {
     switch(action.type) {
-        case 'SET_POSTS' : {
+        case 'GET_SPECIFIC_POST' : {
             return [].concat(action.payload)
         }
-        
         default: {
              return [].concat(state)
         }
     }
 }
 
-export default postsReducer
+export default postReducer

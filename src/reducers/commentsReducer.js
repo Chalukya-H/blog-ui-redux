@@ -1,8 +1,8 @@
-const postsInitialState = []
+const commentInitialState = []
 
-const postsReducer = (state = postsInitialState, action) => {
+const commentsReducer = (state = commentInitialState, action) => {
     switch(action.type) {
-        case 'SET_POSTS' : {
+        case 'SET_COMMENTS' : {
             return [].concat(action.payload)
         }
         
@@ -12,4 +12,4 @@ const postsReducer = (state = postsInitialState, action) => {
     }
 }
 
-export default postsReducer
+export default commentsReducer

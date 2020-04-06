@@ -1,40 +1,44 @@
 import React from 'react'
-import axios from 'axios'
+ 
 import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { startGetUsers } from '../actions/usersAction'
+import {startGetPosts} from  '../actions/postsAction'
 
-class UserShow extends React.Component{
+class UserShow extends React.Component{ 
     constructor(){
         super()
-        this.state ={
+        this.state = {
             user : {},
-            posts :[]
+            post: []
+            
+        }
+    }
+    componentDidMount() {
+        const id = this.props.match.params.id
+        console.log(id)
+        console.log(this.props.users.length , this.props.posts.length)
+
+        if (this.props.users.length === 0 && this.props.posts.length === 0) {
+            console.log('before load')
+            this.props.dispatch(startGetUsers())
+            this.props.dispatch(startGetPosts())
+        } 
+        else 
+        {
+            console.log('After load')
+            const user = this.props.users.filter(user => {
+                return user.id === id
+            })
+
+            const post = this.props.posts.filter(post =>{
+                return post.userId === id
+            })
+
+            this.setState({user:user[0] , post})
 
         }
     }
-
-    componentDidMount=()=>{
-        const id = this.props.match.params.id
-        axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
-        .then ( (response)=>{
-                this.setState ( { posts: response.data})
-        })
-
-        .catch( err => {
-            console.log(err)
-        })
-
-        axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
-
-        .then( (response) => {
-            const user = response.data
-            this.setState({user})
-        })
-        .catch( (err) => {
-            console.log(err)
-        })    
-
-    }
-
     render(){
         return (
             <div style = {{backgroundColor:'aqua'}}>
@@ -42,7 +46,7 @@ class UserShow extends React.Component{
                 <h3>Posts written by user: </h3>
                 <ul>
                     {
-                        this.state.posts.map(function(post) {
+                        this.state.post.map(function(post) {
                             return <li key={post.id}><Link to={`/posts/${post.id}`}>{post.title}</Link></li>
                         })
                     }
@@ -54,4 +58,11 @@ class UserShow extends React.Component{
 }
 
 
-export default UserShow
+const mapStateToProps = (state) => {
+    return {
+        users: state.users,
+        posts:state.posts
+    }
+}
+export default connect(mapStateToProps)(UserShow)
+ 

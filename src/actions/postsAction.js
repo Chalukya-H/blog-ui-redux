@@ -5,7 +5,8 @@ export const setPosts = (posts) => {
 }
 
  
-export const startGetUsers = () => {
+ 
+export const startGetPosts = () => {
     return (dispatch) => {
         axios.get('https://jsonplaceholder.typicode.com/posts')
         .then((response) =>{
@@ -17,3 +18,4 @@ export const startGetUsers = () => {
         })
     }
 }
+ 
