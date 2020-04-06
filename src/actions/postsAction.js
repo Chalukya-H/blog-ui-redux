@@ -3,8 +3,6 @@ import axios from 'axios'
 export const setPosts = (posts) => {
     return { type: 'SET_POSTS', payload: posts}
 }
-
- 
  
 export const startGetPosts = () => {
     return (dispatch) => {
