@@ -1,33 +1,22 @@
 import React from 'react'
-import axios from 'axios'
-import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { startGetPosts } from '../actions/postsAction'
+import { Link } from 'react-router-dom'
 
-class Posts extends React.Component{
-    constructor (){
-        super()
-        this.state = {
-            posts : []
+class Posts extends React.Component {
+    componentDidMount() {
+        if (this.props.posts.length === 0) {
+            this.props.dispatch(startGetPosts())
         }
     }
-
-    componentDidMount(){
-        axios.get('https://jsonplaceholder.typicode.com/posts')
-        .then((response) =>{
-            const posts = response.data
-            this.setState({posts})
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-    }
-
+    
     render(){
         return(
             <div style = {{backgroundColor:'aqua'}}>
-                <h1>Available Posts List - {this.state.posts.length}</h1>
+                <h1>Available Posts List - {this.props.posts.length}</h1>
                 <ul>
                     {
-                        this.state.posts.map(post => {
+                        this.props.posts.map(post => {
                             return <li key={post.id}><Link to={`/posts/${post.id}`}>{post.title}</Link></li>
                         })
                     }
@@ -35,6 +24,14 @@ class Posts extends React.Component{
             </div>
         )
     }
+    
 }
 
-export default Posts
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts
+    }
+}
+export default connect(mapStateToProps)(Posts)
+ 
+

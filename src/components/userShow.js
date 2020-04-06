@@ -17,27 +17,35 @@ class UserShow extends React.Component{
     componentDidMount() {
         const id = this.props.match.params.id
         console.log(id)
-        console.log(this.props.users.length , this.props.posts.length)
-
-        if (this.props.users.length === 0 && this.props.posts.length === 0) {
+         
+        if (this.props.users.length === 0 || this.props.posts.length === 0) {
             console.log('before load')
             this.props.dispatch(startGetUsers())
             this.props.dispatch(startGetPosts())
+           
         } 
-        else 
-        {
-            console.log('After load')
-            const user = this.props.users.filter(user => {
-                return user.id === id
-            })
+        
+       const refersh = setInterval(
+            () => {
+               
+              if (this.props.users.length > 0 && this.props.posts.length > 0) {                    
+                    const users = this.props.users.filter(user => {                                        
+                      return user.id === parseInt(id)
+                })
 
-            const post = this.props.posts.filter(post =>{
-                return post.userId === id
-            })
+                const post = this.props.posts.filter(post =>{
+                    return post.userId === parseInt(id)
+                })
+ 
+                this.setState({user:users[0] , post})
+                clearInterval(refersh)
+              }
+            },
+            1000
+          )
+ 
 
-            this.setState({user:user[0] , post})
-
-        }
+        
     }
     render(){
         return (
