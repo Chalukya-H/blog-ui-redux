@@ -25,12 +25,12 @@ class PostShow extends React.Component{
                                
         } 
         this.props.dispatch(GetComments(id))   
-        
+        const postcomments = this.props.postcomment
         
        const refersh = setInterval(
             () => {
                
-              if (this.props.users.length > 0 && this.props.posts.length > 0 && this.props.postcomment.length > 0) {
+              if (this.props.users.length > 0 && this.props.posts.length > 0 && postcomments.length > 0) {
                 const post = this.props.posts.filter(post =>{
                     return post.id === parseInt(id)
                 })
@@ -38,9 +38,7 @@ class PostShow extends React.Component{
                 const users = this.props.users.filter(user => {                                        
                       return user.id === parseInt(post[0].userId)
                 })
-
-                const postcomments = this.props.postcomment
-
+ 
                 this.setState({user:users[0] , post:post[0] , postcomments})
                 clearInterval(refersh)
               }
