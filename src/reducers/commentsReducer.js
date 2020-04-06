@@ -5,6 +5,10 @@ const commentsReducer = (state = commentInitialState, action) => {
         case 'SET_COMMENTS' : {
             return [].concat(action.payload)
         }
+
+        case 'RESET_COMMENTS' : {
+            return state = {}
+        }
         
         default: {
              return [].concat(state)

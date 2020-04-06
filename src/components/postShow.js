@@ -1,6 +1,9 @@
-import React from 'react'
-import axios from 'axios'
+import React from 'react' 
 import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { startGetUsers } from '../actions/usersAction'
+import {startGetPosts} from  '../actions/postsAction'
+import {startGetComments} from '../actions/commentAction'
 
 class PostShow extends React.Component{
     constructor(){
@@ -12,40 +15,40 @@ class PostShow extends React.Component{
         }
     }
 
-    componentDidMount=()=>{
-        const id = this.props.match.params.id 
-        axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
-
-        .then( (response) => {
-            const post = response.data
-            this.setState({post})
-
-            axios.get(`https://jsonplaceholder.typicode.com/users/${post.userId}`)
-            .then( (response) => {
-                const user = response.data
-                this.setState({user})
-            })
-            .catch( (err) => {
-                console.log(err)
-            })   
-        })
-
-        .catch( (err) => {
-            console.log(err)
-        })  
+    componentDidMount() {
+        const id = this.props.match.params.id
+        console.log(id)
+         
+        if (this.props.users.length === 0 || this.props.posts.length === 0 ) {
+            console.log('before load')
+            this.props.dispatch(startGetUsers())
+            this.props.dispatch(startGetPosts())
+            this.props.dispatch(resetComments())
+           
+        } 
         
+       const refersh = setInterval(
+            () => {
+               
+              if (this.props.users.length > 0 && this.props.posts.length > 0) {                    
+                    const users = this.props.users.filter(user => {                                        
+                      return user.id === parseInt(id)
+                })
+
+                const post = this.props.posts.filter(post =>{
+                    return post.userId === parseInt(id)
+                })
+ 
+                this.setState({user:users[0] , post})
+                clearInterval(refersh)
+              }
+            },
+            1000
+          )
+ 
+
         
-        axios.get(`https://jsonplaceholder.typicode.com/comments?postId=${id}`)
-        .then( response => {
-            this.setState ({ comments : response.data})
-        })
-
-        .catch( (err) => {
-            console.log(err)
-        })  
-
     }
-
     render(){
         return (
             <div style = {{backgroundColor:'aqua'}}>
@@ -74,3 +77,83 @@ class PostShow extends React.Component{
 
 
 export default PostShow
+
+
+
+
+
+import React from 'react' 
+import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { startGetUsers } from '../actions/usersAction'
+import {startGetPosts} from  '../actions/postsAction'
+
+class UserShow extends React.Component{ 
+    constructor(){
+        super()
+        this.state = {
+            user : {},
+            post: []
+            
+        }
+    }
+    componentDidMount() {
+        const id = this.props.match.params.id
+        console.log(id)
+         
+        if (this.props.users.length === 0 || this.props.posts.length === 0) {
+            console.log('before load')
+            this.props.dispatch(startGetUsers())
+            this.props.dispatch(startGetPosts())
+           
+        } 
+        
+       const refersh = setInterval(
+            () => {
+               
+              if (this.props.users.length > 0 && this.props.posts.length > 0) {                    
+                    const users = this.props.users.filter(user => {                                        
+                      return user.id === parseInt(id)
+                })
+
+                const post = this.props.posts.filter(post =>{
+                    return post.userId === parseInt(id)
+                })
+ 
+                this.setState({user:users[0] , post})
+                clearInterval(refersh)
+              }
+            },
+            1000
+          )
+ 
+
+        
+    }
+    render(){
+        return (
+            <div style = {{backgroundColor:'aqua'}}>
+                 <h1>Username : {this.state.user.name}</h1>
+                <h3>Posts written by user: </h3>
+                <ul>
+                    {
+                        this.state.post.map(function(post) {
+                            return <li key={post.id}><Link to={`/posts/${post.id}`}>{post.title}</Link></li>
+                        })
+                    }
+                </ul>
+
+            </div>
+        )
+    }
+}
+
+
+const mapStateToProps = (state) => {
+    return {
+        users: state.users,
+        posts:state.posts
+    }
+}
+export default connect(mapStateToProps)(UserShow)
+ 
