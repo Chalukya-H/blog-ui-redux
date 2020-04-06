@@ -1,6 +1,6 @@
-const commentInitialState = []
+const commentInitState = []
 
-const commentsReducer = (state = commentInitialState, action) => {
+const commentsReducer = (state = commentInitState, action) => {
     switch(action.type) {
         case 'SET_COMMENTS' : {
             return [].concat(action.payload)

@@ -18,19 +18,19 @@ class PostShow extends React.Component{
     componentDidMount() {
         const id = this.props.match.params.id
           
-        if (this.props.users.length === 0 || this.props.posts.length === 0  ) {
+        if (this.props.users.length === 0 || this.props.posts.length === 0 || this.props.postcomment.length ===0  ) {
             console.log('before load')
             this.props.dispatch(startGetUsers())
             this.props.dispatch(startGetPosts())
-            this.props.dispatch(GetComments(id))                       
+                               
         } 
-        
+        this.props.dispatch(GetComments(id))   
         
         
        const refersh = setInterval(
             () => {
                
-              if (this.props.users.length > 0 && this.props.posts.length > 0) {
+              if (this.props.users.length > 0 && this.props.posts.length > 0 && this.props.postcomment.length > 0) {
                 const post = this.props.posts.filter(post =>{
                     return post.id === parseInt(id)
                 })
@@ -39,9 +39,9 @@ class PostShow extends React.Component{
                       return user.id === parseInt(post[0].userId)
                 })
 
-                console.log("comments props-",this.props.postcomment)
- 
-                this.setState({user:users[0] , post:post[0]})
+                const postcomments = this.props.postcomment
+
+                this.setState({user:users[0] , post:post[0] , postcomments})
                 clearInterval(refersh)
               }
             },
@@ -82,7 +82,8 @@ class PostShow extends React.Component{
 const mapStateToProps = (state) => {
     return {
         users: state.users,
-        posts:state.posts
+        posts:state.posts,
+        postcomment:state.postcomment
     }
 }
 export default connect(mapStateToProps)(PostShow)

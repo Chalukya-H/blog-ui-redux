@@ -5,12 +5,11 @@ export const setComments= (comments) => {
 }
   
 export const GetComments= (id) => {  
-      console.log(id)
+       
     return (dispatch) => {
         axios.get(`https://jsonplaceholder.typicode.com/comments?postId=${id}`)
         .then( response => {
-            const comments = response.data
-            // console.log(comments)
+            const comments = response.data            
             dispatch(setComments(comments))
         })
 
