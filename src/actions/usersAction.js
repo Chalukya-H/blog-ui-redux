@@ -8,8 +8,7 @@ export const setUsers = (users) => {
 export const startGetUsers = () => {
     return (dispatch) => {
         axios.get('https://jsonplaceholder.typicode.com/users')
-            .then(response => {
-              
+            .then(response => {              
                 const users = response.data 
                 dispatch(setUsers(users))
             })

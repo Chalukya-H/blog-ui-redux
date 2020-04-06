@@ -1,9 +1,9 @@
 import React from 'react' 
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { startGetUsers } from '../actions/usersAction'
+import {startGetUsers } from '../actions/usersAction'
 import {startGetPosts} from  '../actions/postsAction'
-import {startGetComments} from '../actions/commentAction'
+import {GetComments} from '../actions/commentAction'
 
 class PostShow extends React.Component{
     constructor(){
@@ -11,38 +11,41 @@ class PostShow extends React.Component{
         this.state ={
             post : {},
             user : {},
-            comments : []
+            postcomments : []
         }
     }
 
     componentDidMount() {
         const id = this.props.match.params.id
-        console.log(id)
-         
-        if (this.props.users.length === 0 || this.props.posts.length === 0 ) {
+          
+        if (this.props.users.length === 0 || this.props.posts.length === 0  ) {
             console.log('before load')
             this.props.dispatch(startGetUsers())
-            this.props.dispatch(startGetPosts())                      
+            this.props.dispatch(startGetPosts())
+            this.props.dispatch(GetComments(id))                       
         } 
-        this.props.dispatch(startGetComments(id))  
+        
+        
         
        const refersh = setInterval(
             () => {
                
-              if (this.props.users.length > 0 && this.props.posts.length > 0 && this.props.comments.length > 0) {
+              if (this.props.users.length > 0 && this.props.posts.length > 0) {
                 const post = this.props.posts.filter(post =>{
                     return post.id === parseInt(id)
                 })
 
                 const users = this.props.users.filter(user => {                                        
-                      return user.id === parseInt(post.userId)
+                      return user.id === parseInt(post[0].userId)
                 })
+
+                console.log("comments props-",this.props.postcomment)
  
                 this.setState({user:users[0] , post:post[0]})
                 clearInterval(refersh)
               }
             },
-            1000
+            2000
           )
  
 
@@ -59,7 +62,7 @@ class PostShow extends React.Component{
                 <h2>Comments : </h2>
                 <ul>
                     {
-                        this.state.comments.map (function(ele,i){
+                        this.state.postcomments.map (function(ele,i){
                             return (
                                 <li key ={i}> {ele.body} </li>
                             )   
