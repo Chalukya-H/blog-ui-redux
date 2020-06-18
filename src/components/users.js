@@ -13,12 +13,13 @@ class UsersList extends React.Component {
     
     render(){
         return(
-            <div style = {{backgroundColor:'aqua'}}>
+            <div className ='container mt-4 pb-3' style ={{backgroundColor:'grey'}}>
                 <h1>Users List - {this.props.users.length}</h1>
-                <ul>
+                <ul className = 'list-group' >
                     {
                         this.props.users.map(user => {
-                            return <li key={user.id}><Link to={`/users/${user.id}`}>{user.name}</Link></li>
+                            return <li key={user.id} className = 'list-group-item' style ={{backgroundColor:'lightgrey'}}>
+                                    <Link to={`/users/${user.id}`}>{user.name}</Link></li>
                         })
                     }
                 </ul>

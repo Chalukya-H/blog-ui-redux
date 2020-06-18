@@ -48,13 +48,14 @@ class UserShow extends React.Component{
     }
     render(){
         return (
-            <div style = {{backgroundColor:'aqua'}}>
+            <div className ='container mt-4 pb-3' style ={{backgroundColor:'grey'}}>
                  <h1>Username : {this.state.user.name}</h1>
                 <h3>Posts written by user: </h3>
-                <ul>
+                <ul className = 'list-group' >
                     {
                         this.state.post.map(function(post) {
-                            return <li key={post.id}><Link to={`/posts/${post.id}`}>{post.title}</Link></li>
+                            return <li key={post.id} className = 'list-group-item' style ={{backgroundColor:'lightgrey'}}>
+                                <Link to={`/posts/${post.id}`}>{post.title}</Link></li>
                         })
                     }
                 </ul>

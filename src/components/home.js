@@ -4,8 +4,8 @@ import React from 'react'
 function Home(props){
      
     return (
-        <div style = {{backgroundColor:'aqua'}}>
-            <h2> Home page of bloger site</h2>
+        <div className = 'container-fluid'>
+            <h3 > Blog-Ui application </h3>
         </div>
     )
 }

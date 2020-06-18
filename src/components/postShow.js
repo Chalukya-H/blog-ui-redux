@@ -19,7 +19,7 @@ class PostShow extends React.Component{
         const id = this.props.match.params.id
           
         if (this.props.users.length === 0 || this.props.posts.length === 0 || this.props.postcomment.length ===0  ) {
-            console.log('before load')
+          
             this.props.dispatch(startGetUsers())
             this.props.dispatch(startGetPosts())
                                
@@ -51,25 +51,35 @@ class PostShow extends React.Component{
     }
     render(){
         return (
-            <div style = {{backgroundColor:'aqua'}}>
-                 <h1> UserName : {this.state.user.name}</h1>
-                  <hr/>
-                <h2> Title : {this.state.post.title}</h2>
-                <h2> Body : {this.state.post.body}</h2>
-                <hr/>
+            <div className = 'container border'>
+                 <div className = 'row'>
+                    <div className ='col border rounded-pill'>
+                        <h2> UserName : {this.state.user.name}</h2>
+                    </div>
+                 </div>
+                 <div className = 'row'>
+                    <div className ='col-md-12 border'>
+                         <h3> Title : <br/></h3> <h4>{this.state.post.title}</h4>
+                         <h3> Body : <br/></h3> <h4>{this.state.post.body}</h4>
+                    </div>
+                 </div>
+                  
                 <h2>Comments : </h2>
-                <ul>
+                <ul className ='list-group'>
                     {
                         this.state.postcomments.map (function(ele,i){
                             return (
-                                <li key ={i}> {ele.body} </li>
+                                <li key ={i} className = 'list-group-item'> {ele.body} </li>
                             )   
                         })
                     }
                 </ul>
                 <hr/>
-                <Link to = {`/users/${this.state.user.id}`}> More about Author -{this.state.user.name}</Link> &nbsp;
-                <Link to ='/posts'><button> Goto Posts List</button></Link>
+                <div className = 'breadcrumb'>
+                    <Link to = {`/users/${this.state.user.id}`} className = 'breadcrumb-item'> More about Author -{this.state.user.name}</Link> &nbsp;
+                    <Link to ='/posts' className = 'breadcrumb-item'>  Goto Posts List </Link>
+                </div>
+                
             </div>
         )
     }

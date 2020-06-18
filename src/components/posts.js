@@ -14,12 +14,13 @@ class Posts extends React.Component {
     
     render(){
         return(
-            <div style = {{backgroundColor:'aqua'}}>
+            <div className ='container'>
                 <h1>Available Posts List - {this.props.posts.length}</h1>
-                <ul>
+                <ul className = 'list-group'>
                     {
                         this.props.posts.map(post => {
-                            return <li key={post.id}><Link to={`/posts/${post.id}`}>{post.title}</Link></li>
+                            return <li key={post.id} className ='list-group-item'>
+                                    <Link to={`/posts/${post.id}`}>{post.title}</Link></li>
                         })
                     }
                 </ul>
